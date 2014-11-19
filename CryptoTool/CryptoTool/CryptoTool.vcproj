@@ -46,7 +46,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\Hash;.\Tool;.\RSA"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -127,7 +127,7 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories=".\Hash;.\Tool;.\RSA"
-				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -188,6 +188,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Base64Dlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CryptoTool.cpp"
 				>
 			</File>
@@ -197,6 +201,10 @@
 			</File>
 			<File
 				RelativePath=".\HashDlg.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RC4Dlg.cpp"
 				>
 			</File>
 			<File
@@ -230,6 +238,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\Base64Dlg.h"
+				>
+			</File>
+			<File
 				RelativePath=".\CryptoTool.h"
 				>
 			</File>
@@ -239,6 +251,10 @@
 			</File>
 			<File
 				RelativePath=".\HashDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RC4Dlg.h"
 				>
 			</File>
 			<File

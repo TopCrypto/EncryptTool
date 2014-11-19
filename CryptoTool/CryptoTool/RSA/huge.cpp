@@ -97,9 +97,9 @@ void contract( huge *h )
 {
   int i = 0;
 
-  while ( !( h->rep[ i ] ) && ( i < h->size ) ) { i++; }
+  while ( !( h->rep[ i ] ) && ( i <(int) h->size ) ) { i++; }
 
-  if ( i && i < h->size )
+  if ( i && i < (int) h->size )
   {
     unsigned char *tmp = &h->rep[ i ];
     h->rep = ( unsigned char * ) calloc( h->size - i, 
@@ -381,7 +381,7 @@ int compare( huge *h1, huge *h2 )
   // until one is bigger than another - once we've found one, it's 
   // safe to stop, since the "lower order bytes" can't affect the
   // comparison
-  while ( i < h1->size && j < h2->size )
+  while ( i < (int) h1->size && j < (int) h2->size )
   {
     if ( h1->rep[ i ] < h2->rep[ j ] )
     {
@@ -412,7 +412,7 @@ static void right_shift( huge *h1 )
     carry = ( h1->rep[ i ] & 0x01 ) << 7;
     h1->rep[ i ] = ( h1->rep[ i ] >> 1 ) | old_carry;
   }
-  while ( ++i < h1->size );
+  while ( ++i < (int) h1->size );
 
   contract( h1 );
 }

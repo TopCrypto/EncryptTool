@@ -88,7 +88,7 @@ void CRSADlg::OnBnClickedButton1()
 	unsigned char *modulus;
 	unsigned char *data;
 	rsa_key  public_key;
-	rsa_key private_key;
+
 
 	UpdateData(TRUE);
 	data_len = m_rsa_data.GetLength() / 2;

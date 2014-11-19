@@ -99,13 +99,20 @@ BOOL CCryptoToolDlg::OnInitDialog()
 	// TODO: 在此添加额外的初始化代码
 	m_Tab.InsertItem(0, "HASH", 0);					//向标签控件中添加选项卡
 	m_Tab.InsertItem(1, "RSA", 1);
+	m_Tab.InsertItem(2, "BASE64", 2);
+	m_Tab.InsertItem(3, "RC4", 3);
 	m_Hash.Create(IDD_DIALOG_HASH, &m_Tab);	//创建子窗口
 	m_Rsa.Create(IDD_DIALOG_RSA, &m_Tab);
+	m_Base64.Create(IDD_DIALOG_BASE64, &m_Tab);
+	m_RC4.Create(IDD_DIALOG_RC4, &m_Tab);
+
 	CRect clientRC;
 	m_Tab.GetClientRect(clientRC);						//获取标签客户区域
 	clientRC.DeflateRect(2, 30, 2, 2);						//减少客户区域大小
 	m_Hash.MoveWindow(clientRC);					//移动子窗口
 	m_Rsa.MoveWindow(clientRC);					//移动子窗口
+	m_Base64.MoveWindow(clientRC);
+	m_RC4.MoveWindow(clientRC);
 	m_Hash.ShowWindow(SW_SHOW);					//显示子窗口
 	m_Tab.SetCurSel(0);								//设置默认选中的标签页
 
@@ -172,11 +179,29 @@ void CCryptoToolDlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 	{
 		m_Hash.ShowWindow(SW_SHOW);			//显示子对话框
 		m_Rsa.ShowWindow(SW_HIDE);			//隐藏子对话框
+		m_Base64.ShowWindow(SW_HIDE);
+		m_RC4.ShowWindow(SW_HIDE);
 	}
 	else if (nCurSel == 1)							//如果第2个标签页被选中
 	{
 		m_Rsa.ShowWindow(SW_SHOW);		//显示子对话框
 		m_Hash.ShowWindow(SW_HIDE);			//隐藏子对话框
+		m_Base64.ShowWindow(SW_HIDE);
+		m_RC4.ShowWindow(SW_HIDE);
+	}
+	else if(nCurSel == 2)
+	{   
+		m_Base64.ShowWindow(SW_SHOW);
+		m_Hash.ShowWindow(SW_HIDE);
+		m_Rsa.ShowWindow(SW_HIDE);
+		m_RC4.ShowWindow(SW_HIDE);
+
+	}else if(nCurSel == 3)
+	{
+		m_RC4.ShowWindow(SW_SHOW);
+		m_Base64.ShowWindow(SW_HIDE);
+		m_Hash.ShowWindow(SW_HIDE);
+		m_Rsa.ShowWindow(SW_HIDE);
 	}
 
 	*pResult = 0;

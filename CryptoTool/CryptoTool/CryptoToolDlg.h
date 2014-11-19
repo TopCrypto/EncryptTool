@@ -5,6 +5,9 @@
 #include "afxcmn.h"
 #include "HashDlg.h"
 #include "RSADlg.h"
+#include "Base64Dlg.h"
+#include "RC4Dlg.h"
+
 
 // CCryptoToolDlg 对话框
 class CCryptoToolDlg : public CDialog
@@ -15,6 +18,8 @@ public:
 
     CHashDlg m_Hash;
 	CRSADlg  m_Rsa;
+	CBase64Dlg m_Base64;
+	CRC4Dlg m_RC4;
 
 // 对话框数据
 	enum { IDD = IDD_CRYPTOTOOL_DIALOG };

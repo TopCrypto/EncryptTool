@@ -22,7 +22,7 @@ int hex_decode( const unsigned char *input, unsigned char **decoded )
   {
     len = ( strlen((const char*) input ) >> 1 ) - 1;
     *decoded =(unsigned char *) malloc( len );
-    for ( i = 2; i < strlen((const char *) input ); i += 2 )
+    for ( i = 2; i < (int)strlen((const char *) input ); i += 2 )
     {
       (*decoded)[ ( ( i / 2 ) - 1 ) ] =
         ( ( ( input[ i ] <= '9' ) ? input[ i ] - '0' : 
