@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "CryptoTool.h"
 #include "RC4Dlg.h"
+#include "tool.h"
+
 
 
 // CRC4Dlg dialog
@@ -12,6 +14,10 @@ IMPLEMENT_DYNAMIC(CRC4Dlg, CDialog)
 
 CRC4Dlg::CRC4Dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CRC4Dlg::IDD, pParent)
+	, m_edit1(_T(""))
+	, m_edit2(_T(""))
+	, m_edit3(_T(""))
+	, m_edit4(_T(""))
 {
 
 }
@@ -27,6 +33,14 @@ void CRC4Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT2, m_Key);
 	DDX_Control(pDX, IDC_EDIT3, m_CipherText);
 	DDX_Control(pDX, IDC_EDIT4, m_DecryptText);
+	DDX_Text(pDX, IDC_EDIT1, m_edit1);
+	DDV_MaxChars(pDX, m_edit1, 2147483647);
+	DDX_Text(pDX, IDC_EDIT2, m_edit2);
+	DDV_MaxChars(pDX, m_edit2, 256);
+	DDX_Text(pDX, IDC_EDIT3, m_edit3);
+	DDV_MaxChars(pDX, m_edit3, 2147483647);
+	DDX_Text(pDX, IDC_EDIT4, m_edit4);
+	DDV_MaxChars(pDX, m_edit4, 2147483647);
 }
 
 
@@ -41,7 +55,7 @@ END_MESSAGE_MAP()
 
 
 
-static void rc4_operate(const unsigned char *plaintext, int plaintext_len, unsigned char *ciphertext, const unsigned char *key, int key_len)
+static void rc4_operate(BYTE  *plaintext, int plaintext_len, BYTE *ciphertext, BYTE *key, int key_len)
 {
 	int i, j;
 	unsigned char S[256];
@@ -52,7 +66,7 @@ static void rc4_operate(const unsigned char *plaintext, int plaintext_len, unsig
 	j = 0; 
 	for(i = 0; i < 256; i++)
 	{
-		j = (j + S[i] + key[i % key_len]) % 256;
+		j = (j + S[i] + key[i % key_len])&0xFF;
 		tmp = S[i];
 		S[i] = S[j];
 		S[j] =tmp;
@@ -63,12 +77,12 @@ static void rc4_operate(const unsigned char *plaintext, int plaintext_len, unsig
 
 	while(plaintext_len--)
 	{
-		i = (i + 1) % 256;
-		j = (j + S[i]) % 256;
+		i = (i + 1) & 0xFF;
+		j = (j + S[i]) & 0xFF;
 		tmp = S[i];
 		S[i] = S[j];
 		S[j] = tmp;
-		*(ciphertext++) = *(plaintext++) ^S[(S[i] + S[j]) % 256];
+		*(ciphertext++) = *(plaintext++) ^S[(S[i] + S[j]) & 0xFF];
 	}
 
 }
@@ -149,66 +163,108 @@ void CRC4Dlg::OnBnClickedButton1()
 
    unsigned char *pData;
    unsigned char *key;
-   char *pOutData;
-   int input_len;
-   int key_len;
+   unsigned char *msg;
+   int keylen;
+   int pDatalen;
+   int  tmp;
    
+  
+
    CString str;
    GetDlgItemText(IDC_EDIT1, str);
-   input_len = str.GetLength();
-   pData = (unsigned char *)malloc(input_len);
-   memcpy(pData, str, str.GetLength());
+   tmp = str.GetLength();
+   if((tmp == 0) ||  (tmp %2 !=0))
+   {
+	   MessageBox("输入数据为必须是16进制格式");
+	   return;
+   }
+   pDatalen = tmp / 2;
+   pData = (unsigned char *)malloc(pDatalen);
+   memset(pData, 0, pDatalen);
+
+   UpdateData(TRUE);
+   HexCharsToStdChars((PBYTE)m_edit1.GetBuffer(m_edit1.GetLength()), pData, pDatalen);
+   UpdateData(FALSE);
+
 
 	GetDlgItemText(IDC_EDIT2, str);
-	key_len = str.GetLength();
-	key = (unsigned char *)malloc(key_len);
-	memcpy(key, str, key_len);
+	tmp = str.GetLength();
+	if( (tmp == 0) || (tmp %2 != 0) || (tmp > 512) )
+	{
+		MessageBox("输入密钥长度为1-256字节之间");
+		return;
+	}
+	keylen = tmp / 2;
+	key = (unsigned char *)malloc(keylen);
+	memset(key, 0, keylen);
+	UpdateData(TRUE);
+	HexCharsToStdChars((PBYTE)m_edit2.GetBuffer(m_edit2.GetLength()), key, keylen);
+	UpdateData(FALSE);
 
-    pOutData = (char *)malloc(input_len+1);
-	memset(pOutData, '\0', input_len+1);
-
-	rc4_operate((const unsigned char *)pData, input_len, (unsigned char *)pOutData, (const unsigned char *)key, key_len);
-	SetDlgItemText(IDC_EDIT3, pOutData);
+	rc4_operate(pData, pDatalen, pData, key, keylen);
+     
+	msg = (unsigned char *) malloc(2*pDatalen+1);
+    *(msg+(2*pDatalen)) = '\0';
+    StdCharsToHexChars(pData, msg, pDatalen);
+    
+	SetDlgItemText(IDC_EDIT3, (LPCTSTR)msg);
 
     free(pData);
 	free(key);
-	free(pOutData);
-
-
-
+	free(msg);
 }
 
 void CRC4Dlg::OnBnClickedButton2()
 {
 	// TODO: Add your control notification handler code here
 	unsigned char *pData;
-	char *pOutData;
 	unsigned char *key;
-    
-	int input_len;
-	int key_len;
+	unsigned char *msg;
+	int keylen;
+	int pDatalen;
+	int  tmp;
 
-    CString str;
+	CString str;
 	GetDlgItemText(IDC_EDIT3, str);
-	input_len = str.GetLength();
-	pData = (unsigned char *)malloc(input_len);
-	memcpy(pData, str, input_len);
-	
+	tmp = str.GetLength();
+	if(tmp == 0 || tmp % 2 != 0)
+	{
+		MessageBox("输入数据为必须是16进制格式");
+		return;
+	}
+	pDatalen = tmp / 2;
+	pData = (unsigned char *)malloc(pDatalen);
+	memset(pData, 0, pDatalen);
+	UpdateData(TRUE);
+	HexCharsToStdChars((PBYTE)m_edit3.GetBuffer(m_edit3.GetLength()), pData, pDatalen);
+	UpdateData(FALSE);
+
+
 	GetDlgItemText(IDC_EDIT2, str);
-	key_len = str.GetLength();
-	key = (unsigned char *)malloc(key_len);
-	memcpy(key, str, key_len);
+	tmp = str.GetLength();
+	if( (tmp == 0) || (tmp %2 != 0) || (tmp > 512) )
+	{
+		MessageBox("输入密钥长度为1-256字节之间");
+		return;
+	}
+	keylen = tmp / 2;
+	key = (unsigned char *)malloc(keylen);
+	memset(key, 0, keylen);
+	UpdateData(TRUE);
+	HexCharsToStdChars((PBYTE)m_edit2.GetBuffer(m_edit2.GetLength()), key, keylen);
+	UpdateData(FALSE);
 
+	rc4_operate(pData, pDatalen, pData, key, keylen);
 
-    pOutData = (char *)malloc(input_len+1);
-	memset(pOutData, '\0', input_len+1);
+	msg = (unsigned char *) malloc(2*pDatalen+1);
+	*(msg+(2*pDatalen)) = '\0';                     // 此处由于自己将指针位置搞错，导致指向出错。
+	StdCharsToHexChars(pData, msg, pDatalen);
 
-	rc4_operate((const unsigned char *)pData, input_len, (unsigned char *)pOutData, (const unsigned char *)key, key_len);
-	SetDlgItemText(IDC_EDIT4, pOutData);
-    
+	SetDlgItemText(IDC_EDIT4, (LPCTSTR)msg);
+
 	free(pData);
-	free(pOutData);
 	free(key);
+	free(msg);
 }
 
 void CRC4Dlg::OnBnClickedButton3()

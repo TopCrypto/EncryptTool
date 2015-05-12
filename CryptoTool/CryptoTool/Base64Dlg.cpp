@@ -57,6 +57,10 @@ void CBase64Dlg::OnBnClickedButton1()
 	
 	int input_len;
     input_len = csInput.GetLength();
+	if(!input_len)
+	{
+		return;
+	}
    
 	unsigned char *input;
 	input = (unsigned char *)malloc(input_len);
@@ -83,6 +87,10 @@ void CBase64Dlg::OnBnClickedButton2()
 
 	int output_len;
 	output_len = csOutput.GetLength();
+	if(!output_len)
+	{
+		return;
+	}
 
 	unsigned char *output;
 	output = (unsigned char *)malloc(output_len + 1);

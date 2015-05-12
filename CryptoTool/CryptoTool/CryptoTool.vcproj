@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\Hash;.\Tool;.\RSA"
+				AdditionalIncludeDirectories=".\Hash;.\Tool;.\RSA\headers;.\RSA"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -126,7 +126,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories=".\Hash;.\Tool;.\RSA"
+				AdditionalIncludeDirectories=".\Hash;.\Tool;.\RSA\headers;.\RSA;.l\ASN1"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -327,30 +327,98 @@
 		<Filter
 			Name="RSA"
 			>
-			<File
-				RelativePath=".\RSA\hex.cpp"
+			<Filter
+				Name="Inchead"
 				>
-			</File>
-			<File
-				RelativePath=".\RSA\hex.h"
+				<File
+					RelativePath=".\RSA\headers\tomcrypt.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_argchk.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_cfg.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_cipher.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_custom.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_hash.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_mac.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_macros.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_math.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_misc.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_pk.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_pkcs.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tomcrypt_prng.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tommath.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tommath_class.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\headers\tommath_superclass.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Lib"
 				>
-			</File>
-			<File
-				RelativePath=".\RSA\huge.cpp"
+				<File
+					RelativePath=".\RSA\tomcrypt.lib"
+					>
+				</File>
+				<File
+					RelativePath=".\RSA\tommath.lib"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="ASN1"
 				>
-			</File>
-			<File
-				RelativePath=".\RSA\huge.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RSA\rsa.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RSA\rsa.h"
-				>
-			</File>
+				<File
+					RelativePath=".\ASN1\asn1.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ASN1\asn1.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Tool"

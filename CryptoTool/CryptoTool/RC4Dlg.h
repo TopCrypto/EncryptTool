@@ -29,4 +29,8 @@ public:
 	CEdit m_Key;
 	CEdit m_CipherText;
 	CEdit m_DecryptText;
+	CString m_edit1;
+	CString m_edit2;
+	CString m_edit3;
+	CString m_edit4;
 };

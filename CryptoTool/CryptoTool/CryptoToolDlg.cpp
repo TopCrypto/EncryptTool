@@ -97,10 +97,10 @@ BOOL CCryptoToolDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	m_Tab.InsertItem(0, "HASH", 0);					//向标签控件中添加选项卡
-	m_Tab.InsertItem(1, "RSA", 1);
+	m_Tab.InsertItem(0, "HASH  ", 0);					//向标签控件中添加选项卡
+	m_Tab.InsertItem(1, "RSA   ", 1);
 	m_Tab.InsertItem(2, "BASE64", 2);
-	m_Tab.InsertItem(3, "RC4", 3);
+	m_Tab.InsertItem(3, "RC4   ", 3);
 	m_Hash.Create(IDD_DIALOG_HASH, &m_Tab);	//创建子窗口
 	m_Rsa.Create(IDD_DIALOG_RSA, &m_Tab);
 	m_Base64.Create(IDD_DIALOG_BASE64, &m_Tab);
@@ -115,8 +115,6 @@ BOOL CCryptoToolDlg::OnInitDialog()
 	m_RC4.MoveWindow(clientRC);
 	m_Hash.ShowWindow(SW_SHOW);					//显示子窗口
 	m_Tab.SetCurSel(0);								//设置默认选中的标签页
-
-
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
